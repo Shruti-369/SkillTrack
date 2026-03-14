@@ -3,9 +3,11 @@ import { format, startOfWeek, addDays, startOfMonth, endOfMonth, endOfWeek, isSa
 import { ChevronLeft, ChevronRight, CheckCircle2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/card';
 import { Button } from '../components/ui/button';
+import { useSkills } from '../lib/SkillContext';
 
 export function CalendarPage() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const { skills } = useSkills();
 
   const nextMonth = () => setCurrentMonth(addMonths(currentMonth, 1));
   const prevMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
@@ -27,8 +29,14 @@ export function CalendarPage() {
         formattedDate = format(day, dateFormat);
         const cloneDay = day;
         
-        // Mock data: some days have practice
-        const hasPractice = Math.random() > 0.6;
+        const dateStr = format(day, 'yyyy-MM-dd');
+        let dayHours = 0;
+        skills.forEach(skill => {
+          const logsForDay = skill.logs.filter(l => l.date === dateStr);
+          dayHours += logsForDay.reduce((sum, l) => sum + Number(l.hours), 0);
+        });
+        
+        const hasPractice = dayHours > 0;
         
         days.push(
           <div
@@ -46,7 +54,7 @@ export function CalendarPage() {
               <div className="absolute bottom-2 left-2 right-2">
                 <div className="flex items-center gap-1 text-xs text-green-400 bg-green-950/30 px-1.5 py-1 rounded border border-green-900/50">
                   <CheckCircle2 className="w-3 h-3" />
-                  <span>2h Logged</span>
+                  <span>{dayHours}h Logged</span>
                 </div>
               </div>
             )}

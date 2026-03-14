@@ -8,23 +8,27 @@ import { SkillDetailPage } from './pages/SkillDetailPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
 import { CalendarPage } from './pages/CalendarPage';
 
+import { SkillProvider } from './lib/SkillContext';
+
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        
-        <Route element={<SidebarLayout />}>
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/analytics" element={<AnalyticsPage />} />
-          <Route path="/calendar" element={<CalendarPage />} />
-          <Route path="/skills/add" element={<AddSkillPage />} />
-          <Route path="/skills/:id" element={<SkillDetailPage />} />
-          <Route path="/settings" element={<div className="p-8">Settings</div>} />
-        </Route>
-      </Routes>
-    </Router>
+    <SkillProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          
+          <Route element={<SidebarLayout />}>
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/analytics" element={<AnalyticsPage />} />
+            <Route path="/calendar" element={<CalendarPage />} />
+            <Route path="/skills/add" element={<AddSkillPage />} />
+            <Route path="/skills/:id" element={<SkillDetailPage />} />
+            <Route path="/settings" element={<div className="p-8">Settings</div>} />
+          </Route>
+        </Routes>
+      </Router>
+    </SkillProvider>
   );
 }
 
