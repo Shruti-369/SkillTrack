@@ -1,9 +1,13 @@
 import { Link, useLocation, Outlet } from 'react-router-dom';
-import { LayoutDashboard, BarChart2, CalendarDays, Settings, LogOut, Code } from 'lucide-react';
+import { LayoutDashboard, BarChart2, CalendarDays, Settings, LogOut, Code, Users, MessageSquare, Trophy, User } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 const navItems = [
   { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
+  { name: 'Community', path: '/community', icon: Users },
+  { name: 'Messages', path: '/messages', icon: MessageSquare },
+  { name: 'Leaderboard', path: '/leaderboard', icon: Trophy },
+  { name: 'Profile', path: '/profile', icon: User },
   { name: 'Analytics', path: '/analytics', icon: BarChart2 },
   { name: 'Calendar', path: '/calendar', icon: CalendarDays },
   { name: 'Settings', path: '/settings', icon: Settings },

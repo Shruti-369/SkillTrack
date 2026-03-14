@@ -3,6 +3,7 @@ import { Flame, Target, Zap, Plus, ChevronRight, Activity, TrendingUp, TrendingD
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { useSkills } from '../lib/SkillContext';
+import { useAppContext } from '../lib/AppContext';
 import { startOfWeek, isAfter } from 'date-fns';
 import {
   getMomentum,
@@ -51,6 +52,8 @@ function MiniRing({ score }) {
 // ─── Main ─────────────────────────────────────────────────────────────────────
 export function DashboardPage() {
   const { skills } = useSkills();
+  const { users, currentUser } = useAppContext();
+  
   const today = new Date();
   const startOfCurrWeek = startOfWeek(today);
 
@@ -252,19 +255,29 @@ export function DashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {friendActivity.map(item => (
-                <div key={item.id} className="flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-xs font-bold text-zinc-300 shrink-0">
-                    {item.avatar}
+              {users.filter(u => currentUser.friends.includes(u.id)).map((friend, i) => {
+                const actions = [
+                  `completed a ${friend.streak} day streak.`,
+                  `practiced for ${Math.floor(friend.weeklyHours / 3)} hours today.`,
+                  `earned ${Math.floor(friend.xp / 100) * 100} XP recently.`
+                ];
+                return (
+                  <div key={friend.id} className="flex items-center gap-3">
+                    <div className="w-7 h-7 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-xs font-bold text-zinc-300 shrink-0">
+                      {friend.avatar}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs text-zinc-300 leading-snug">
+                        <span className="font-semibold text-white">{friend.username}</span> {actions[i % actions.length]}
+                      </p>
+                      <p className="text-[11px] text-zinc-600 mt-0.5">{(i + 1) * 2} hours ago</p>
+                    </div>
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-xs text-zinc-300 leading-snug">
-                      <span className="font-semibold text-white">{item.name}</span> {item.action}
-                    </p>
-                    <p className="text-[11px] text-zinc-600 mt-0.5">{item.time}</p>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
+              {currentUser.friends.length === 0 && (
+                <p className="text-xs text-zinc-500 italic">No recent friend activity.</p>
+              )}
             </div>
           </CardContent>
         </Card>

@@ -7,28 +7,40 @@ import { AddSkillPage } from './pages/AddSkillPage';
 import { SkillDetailPage } from './pages/SkillDetailPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
 import { CalendarPage } from './pages/CalendarPage';
+import { CommunityPage } from './pages/CommunityPage';
+import { MessagesPage } from './pages/MessagesPage';
+import { LeaderboardPage } from './pages/LeaderboardPage';
+import { ProfilePage } from './pages/ProfilePage';
+import { SettingsPage } from './pages/SettingsPage';
 
 import { SkillProvider } from './lib/SkillContext';
+import { AppProvider } from './lib/AppContext';
 
 function App() {
   return (
-    <SkillProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          
-          <Route element={<SidebarLayout />}>
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/analytics" element={<AnalyticsPage />} />
-            <Route path="/calendar" element={<CalendarPage />} />
-            <Route path="/skills/add" element={<AddSkillPage />} />
-            <Route path="/skills/:id" element={<SkillDetailPage />} />
-            <Route path="/settings" element={<div className="p-8">Settings</div>} />
-          </Route>
-        </Routes>
-      </Router>
-    </SkillProvider>
+    <AppProvider>
+      <SkillProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            
+            <Route element={<SidebarLayout />}>
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/community" element={<CommunityPage />} />
+              <Route path="/messages" element={<MessagesPage />} />
+              <Route path="/leaderboard" element={<LeaderboardPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/analytics" element={<AnalyticsPage />} />
+              <Route path="/calendar" element={<CalendarPage />} />
+              <Route path="/skills/add" element={<AddSkillPage />} />
+              <Route path="/skills/:id" element={<SkillDetailPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+            </Route>
+          </Routes>
+        </Router>
+      </SkillProvider>
+    </AppProvider>
   );
 }
 
